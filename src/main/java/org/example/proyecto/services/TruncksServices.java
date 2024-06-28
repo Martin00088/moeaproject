@@ -4,7 +4,9 @@ import org.example.proyecto.model.dto.TrunckDto;
 import org.example.proyecto.model.mapper.TrunckMapper;
 import org.example.proyecto.persistence.repositories.TruncksRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,8 +21,16 @@ public class TruncksServices {
         }
 
 
-        public Page<TrunckDto> getTruncks(String orderField, String orderCriterial, Integer pageNumber, Integer pageSize) {
-            Pageable page=Pageable.ofSize(pageSize);
-            return trunckRepository.findAll(page).map(this.trunckMapper::toDto);
+    public Page<TrunckDto> get(String orderField, String orderCriterial, Integer pageNumber, Integer pageSize) {
+        Pageable page;
+
+        if (orderCriterial.equalsIgnoreCase("desc")) {
+            page = PageRequest.of(pageNumber, pageSize, Sort.by(orderField).descending());
+        }else{
+            page = PageRequest.of(pageNumber, pageSize, Sort.by(orderField).ascending());
         }
+
+        return trunckRepository.findAll(page).map(this.trunckMapper::toDto);
     }
+        }
+

@@ -4,7 +4,9 @@ import org.example.proyecto.model.dto.StopDto;
 import org.example.proyecto.model.mapper.StopMapper;
 import org.example.proyecto.persistence.repositories.StopRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,12 +19,17 @@ public class StopServices {
         this.stopRepository = stopRepository;
         this.stopMapper = stopMapper;
     }
+    public Page<StopDto>get(String orderField, String orderCriterial, Integer pageNumber, Integer pageSize) {
+            Pageable page;
 
+            if (orderCriterial.equalsIgnoreCase("desc")) {
+                page = PageRequest.of(pageNumber, pageSize, Sort.by(orderField).descending());
+            }else{
+                page = PageRequest.of(pageNumber, pageSize, Sort.by(orderField).ascending());
+            }
 
-    public Page<StopDto> getStops(String orderField, String orderCriterial, Integer pageNumber, Integer pageSize) {
-        Pageable page=Pageable.ofSize(pageSize);
-        return stopRepository.findAll(page).map(this.stopMapper::toDto);
+            return stopRepository.findAll(page).map(this.stopMapper::toDto);
+        }
     }
 
-}
 

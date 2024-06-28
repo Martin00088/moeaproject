@@ -15,10 +15,10 @@ public class TrunckController {
     }
 
     @GetMapping("/truncks")
-    public Page<TrunckDto> getTruncks(@RequestParam(name= "orderField") String orderField,
+    public Page<TrunckDto> get(@RequestParam(name= "orderField") String orderField,
                                       @RequestParam(name= "orderCriterial") String orderCriterial,
                                       @RequestParam(name= "pageNumber") Integer pageNumber,
                                       @RequestParam(name= "pageSize") Integer pageSize) {
-        return this.trunckService.getTruncks(orderField, orderCriterial, pageNumber, pageSize);
+        return this.trunckService.get(orderField, orderCriterial, pageNumber, pageSize);
     }
 }

@@ -15,11 +15,11 @@ public class FramesController {
     }
 
     @GetMapping("/frames")
-    public Page<FrameDto> getFrames(@RequestParam(name= "orderField") String orderField,
-                                    @RequestParam(name= "orderCriterial") String orderCriterial,
-                                    @RequestParam(name= "pageNumber") Integer pageNumber,
-                                    @RequestParam(name= "pageSize") Integer pageSize) {
-        return this.frameService.getFrames(orderField, orderCriterial, pageNumber, pageSize);
+    public Page<FrameDto> get(@RequestParam(name= "orderField",defaultValue = "id") String orderField,
+                                    @RequestParam(name= "orderCriterial",defaultValue = "DESC") String orderCriterial,
+                                    @RequestParam(name= "pageNumber",defaultValue = "0") Integer pageNumber,
+                                    @RequestParam(name= "pageSize",defaultValue = "30") Integer pageSize) {
+        return this.frameService.get(orderField, orderCriterial, pageNumber, pageSize);
     }
 }
 

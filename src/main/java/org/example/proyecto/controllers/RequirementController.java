@@ -13,11 +13,13 @@ public class RequirementController {
         this.requirementService = requirementService;
     }
 
-    @GetMapping("/requirements")
-    public Page<RequirementDto> getRequirements(@RequestParam(name= "orderField") String orderField,
-                                                @RequestParam(name= "orderCriterial") String orderCriterial,
-                                                @RequestParam(name= "pageNumber") Integer pageNumber,
-                                                @RequestParam(name= "pageSize") Integer pageSize) {
-        return this.requirementService.getRequirements(orderField, orderCriterial, pageNumber, pageSize);
+    @GetMapping(value = "requirements")
+    public Page<RequirementDto> get(
+            @RequestParam(value = "orderField", defaultValue="id") String orderField,
+            @RequestParam(value = "orderCriterial", defaultValue="DESC") String orderCriterial,
+            @RequestParam(value = "page", defaultValue="0") Integer page,
+            @RequestParam(value = "pageSize", defaultValue="30") Integer pageSize
+    ) {
+        return requirementService.get(orderField, orderCriterial, page, pageSize);
     }
 }

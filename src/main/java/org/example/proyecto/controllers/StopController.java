@@ -14,10 +14,10 @@ public class StopController {
     }
 
     @GetMapping("/stops")
-    public Page<StopDto> getStops(@RequestParam(name= "orderField") String orderField,
-                                  @RequestParam(name= "orderCriterial") String orderCriterial,
-                                  @RequestParam(name= "pageNumber") Integer pageNumber,
-                                  @RequestParam(name= "pageSize") Integer pageSize) {
-        return this.stopService.getStops(orderField, orderCriterial, pageNumber, pageSize);
+    public Page<StopDto> getStops(@RequestParam(name= "orderField",defaultValue = "id") String orderField,
+                                  @RequestParam(name= "orderCriterial",defaultValue = "DESC") String orderCriterial,
+                                  @RequestParam(name= "pageNumber",defaultValue = "0") Integer pageNumber,
+                                  @RequestParam(name= "pageSize", defaultValue = "30") Integer pageSize) {
+        return this.stopService.get(orderField, orderCriterial, pageNumber, pageSize);
     }
 }
