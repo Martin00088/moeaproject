@@ -4,28 +4,34 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class MoeaController {
-    public final MoeaService MoeaService;
+public class MOEAController {
+    private final MOEAService service;
 
-    public MoeaController(MoeaService MoeaService) {
-        this.MoeaService=MoeaService;
+    public MOEAController(MOEAService service) {
+        this.service = service;
     }
 
-    @GetMapping(path = "moea/run",produces = "application/json")
-    public String run(){
-        try {
-            return  MoeaService.run();
-        }
-        catch (Exception e) {
+    @GetMapping(path = "moea/test", produces = "application/json")
+	public String test(){
+        this.init();
+        return this.run();
+	}
+
+    @GetMapping("moea/init")
+    public void init() {
+        service.loadCities();
+        service.loadRequirements();
+        service.loadTrunks();
+        service.loadFrames();
+    }
+
+    @GetMapping(path = "moea/run", produces = "application/json")
+    public String run() {
+        try{
+            return service.run();
+        }catch (InterruptedException e){
             e.printStackTrace();
-            return e.getMessage();
+            return "{\"error\": \"" + e.getMessage() + "\" }";
         }
     }
-    @GetMapping(path = "moea/init",produces = "application/json")
-    public String init(){
-        MoeaService.run();
-        return "init";
-    }
-
 }
-
